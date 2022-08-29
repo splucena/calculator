@@ -1,2 +1,0 @@
-# calculator
-CI/CD practice
