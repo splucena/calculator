@@ -42,12 +42,19 @@ pipeline {
                 sh "docker build -t splucena/calculator:latest ."
             }
           }
+          stage("Docker Login") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-registry-login', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {
+                sh "docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_PWD"
+                }
+            }
+          }
           stage("Docker Push") {
             steps {
                 sh "docker push splucena/calculator:latest"
             }
           }
-          stage("Deploy to staging") {
+          stage("Deploy to Staging") {
             steps {
                 sh "docker run -d --rm -p 8765:8080 --name calculator splucena/calculator:latest"
             }
