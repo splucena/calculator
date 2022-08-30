@@ -1,5 +1,8 @@
 pipeline { 
-     agent any 
+     agent any
+     environment {
+        dockerhub = credentials("dockerhub")
+     } 
      stages { 
           stage("Compile") { 
                steps { 
@@ -44,9 +47,7 @@ pipeline {
           }
           stage("Docker Login") {
             steps {
-                docker.withRegistry("https://index.docker.io/v1/", "docker-registry-login") {
-                    sh "docker login"
-                }
+                sh "docker login -u $dockerhub.username -p $dockerhub.password"
             }
           }
           stage("Docker Push") {
