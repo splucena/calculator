@@ -44,8 +44,8 @@ pipeline {
           }
           stage("Docker Login") {
             steps {
-                withCredentials([string(credentialsId: 'docker-registry-login', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]) {
-                    sh "docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PWD}"
+                withCredentials("https://index.docker.io/v1/", "docker-registry-login") {
+                    sh "docker login"
                 }
             }
           }
