@@ -44,7 +44,7 @@ pipeline {
           }
           stage("Docker Login") {
             steps {
-                withRegistry("https://index.docker.io/v1/", "docker-registry-login") {
+                docker.withRegistry("https://index.docker.io/v1/", "docker-registry-login") {
                     sh "docker login"
                 }
             }
