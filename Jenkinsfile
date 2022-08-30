@@ -42,5 +42,15 @@ pipeline {
                 sh "docker build -t splucena/calculator:latest ."
             }
           }
+          stage("Docker Push") {
+            steps {
+                sh "docker push splucena/calculator:latest"
+            }
+          }
+          stage("Deploy to staging") {
+            steps {
+                sh "docker run -d --rm -p 8765:8080 --name calculator splucena/calculator:latest"
+            }
+          }
      } 
 }
