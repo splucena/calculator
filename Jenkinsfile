@@ -47,7 +47,7 @@ pipeline {
           }
           stage("Docker Login") {
             steps {
-                sh "echo \$dockerhub_PSW | docker login -u \$dockerhub_USR --password-stdin"
+                sh "docker login -u \$dockerhub_USR -p \$dockerhub_PSW"
             }
           }
           stage("Docker Push") {
