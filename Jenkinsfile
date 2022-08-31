@@ -42,7 +42,7 @@ pipeline {
           }
           stage("Docker Build") {
             steps {
-                sh "docker build -t splucena/calculator:latest ."
+                sh "docker build -t splucena/calculator:${BUILD_TIMESTAMP} ."
             }
           }
           stage("Docker Login") {
@@ -52,12 +52,12 @@ pipeline {
           }
           stage("Docker Push") {
             steps {
-                sh "docker push splucena/calculator:latest"
+                sh "docker push splucena/calculator:${BUILD_TIMESTAMP}"
             }
           }
           stage("Deploy to Staging") {
             steps {
-                sh "docker run -d --rm -p 8765:8080 --name calculator splucena/calculator:latest"
+                sh "docker run -d --rm -p 8765:8080 --name calculator splucena/calculator:${BUILD_TIMESTAMP}"
             }
           }
           stage("Acceptance Test") {

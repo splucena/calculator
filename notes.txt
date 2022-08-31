@@ -1,1 +1,27 @@
-Testing scm polling.
+Kubernetes
+
+Deployment
+$ kubectl apply -f deployment.yaml
+
+Get pods
+$ kubectl get pods
+
+Inspect a pod
+$ kubectl logs pods/calculator-deployment-dccdf8756-h2l6c
+
+Create service
+$ kubectl apply -f service.yaml
+
+Check services
+$ kubectl get service calculator-service
+
+Check services endpoints
+$ kubectl describe service calculator-service | grep Endpoints
+
+Run service in browser
+$ minikube service list
+$ minikube service calculator-service
+
+Cleanup
+$ kubectl delete -f service.yaml 
+$ kubectl delete -f deployment.yaml
