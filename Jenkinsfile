@@ -55,6 +55,14 @@ pipeline {
                 sh "docker push splucena/calculator:${BUILD_TIMESTAMP}"
             }
           }
+          stage("Deploy to staging") {
+               steps {
+                    sh "kubectl config use-context staging"
+                    sh "kubectl apply -f hazelcast.yaml"
+                    sh "kubectl apply -f deployment.yaml"
+                    sh "kubectl apply -f service.yaml"
+               }
+          }
           stage("Deploy to Staging") {
             steps {
                 sh "docker run -d --rm -p 8765:8080 --name calculator splucena/calculator:${BUILD_TIMESTAMP}"
@@ -65,6 +73,20 @@ pipeline {
                 sleep 60
                 sh "./gradlew acceptanceTest -D calculator.url=http://localhost:8765"
             }
+          }
+           stage("Release") {
+               steps {
+                    sh "kubectl config use-context production"
+                    sh "kubectl apply -f hazelcast.yaml"
+                    sh "kubectl apply -f deployment.yaml"
+                    sh "kubectl apply -f service.yaml"                    
+               }
+          }
+          stage("Smoke test") {
+              steps {
+                  sleep 60
+                  sh "chmod +x smoke-test.sh && ./smoke-test.sh"
+              }
           }
      }
      post {
