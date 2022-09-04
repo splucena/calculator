@@ -57,7 +57,7 @@ pipeline {
           }
           stage("Deploy to staging") {
                steps {
-                    sh "kubectl config use-context staging"
+                    // sh "kubectl config use-context staging"
                     sh "kubectl apply -f hazelcast.yaml"
                     sh "kubectl apply -f deployment.yaml"
                     sh "kubectl apply -f service.yaml"
@@ -74,14 +74,14 @@ pipeline {
                 sh "./gradlew acceptanceTest -D calculator.url=http://localhost:8765"
             }
           }
-           stage("Release") {
-               steps {
-                    sh "kubectl config use-context production"
-                    sh "kubectl apply -f hazelcast.yaml"
-                    sh "kubectl apply -f deployment.yaml"
-                    sh "kubectl apply -f service.yaml"                    
-               }
-          }
+          // stage("Release") {
+          //      steps {
+          //           sh "kubectl config use-context production"
+          //           sh "kubectl apply -f hazelcast.yaml"
+          //           sh "kubectl apply -f deployment.yaml"
+          //           sh "kubectl apply -f service.yaml"                    
+          //      }
+          // }
           stage("Smoke test") {
               steps {
                   sleep 60
