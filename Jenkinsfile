@@ -12,18 +12,24 @@ pipeline {
               - cat
               tty: true
             - name: docker
-              image: docker:latest
+              image: docker
               command:
               - cat
               tty: true
           '''
       }
     }
-
      environment {
         dockerhub=credentials("dockerhub")
      } 
-     stages { 
+     stages {
+          stage("Docker Version") {
+            steps {
+              container('docker') {
+                sh 'docker version'
+              }
+            }
+          } 
           stage("Compile") { 
                steps { 
                     sh "./gradlew compileJava" 
