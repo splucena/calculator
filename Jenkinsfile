@@ -1,5 +1,20 @@
 pipeline { 
-     agent any
+    agent {
+      kubernetes {
+        yaml '''
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+            - name: jenkins
+              image: jenkins/agent
+              command:
+              - cat
+              tty: true
+          '''
+      }
+    }
+
      environment {
         dockerhub=credentials("dockerhub")
      } 
