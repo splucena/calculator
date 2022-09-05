@@ -25,3 +25,5 @@ $ minikube service calculator-service
 Cleanup
 $ kubectl delete -f service.yaml 
 $ kubectl delete -f deployment.yaml
+
+leszko/jenkins-docker-slave
