@@ -23,17 +23,20 @@ dependencies {
 	testImplementation("io.cucumber:cucumber-junit:7.2.0")
 }
 
-// tasks.named('test') {
-// 	useJUnitPlatform()
-// }
 tasks.register('acceptanceTest', Test) { 
 	include '**/acceptance/**' 
 	systemProperties System.getProperties() 
 } 
 
+tasks.register('smokeTest', Test) { 
+	include '**/smoke/**' 
+	systemProperties System.getProperties() 
+} 
+
 test { 
-	exclude '**/acceptance/**' 
-}  
+	exclude '**/acceptance/**'
+	exclude '**/smoke/**'
+} 
 
 jacocoTestCoverageVerification {
 	violationRules {
