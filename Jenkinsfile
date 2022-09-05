@@ -1,7 +1,5 @@
 pipeline { 
-     agent {
-        docker { image  'jenkins/slave:latest' }
-     }
+     agent any
      environment {
         dockerhub=credentials("dockerhub")
      } 
