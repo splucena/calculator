@@ -1,35 +1,9 @@
 pipeline { 
-    agent {
-      kubernetes {
-        yaml '''
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-            - name: jenkins
-              image: jenkins/agent
-              command:
-              - cat
-              tty: true
-            - name: docker
-              image: docker
-              command:
-              - cat
-              tty: true
-          '''
-      }
-    }
+     agent any
      environment {
         dockerhub=credentials("dockerhub")
      } 
-     stages {
-          stage("Docker Version") {
-            steps {
-              container('docker') {
-                sh 'docker version'
-              }
-            }
-          } 
+     stages { 
           stage("Compile") { 
                steps { 
                     sh "./gradlew compileJava" 
